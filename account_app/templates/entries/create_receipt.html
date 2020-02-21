@@ -1,0 +1,441 @@
+<div class="row">
+    <div class="col-md-12">
+        <a href="#create_receipt" class="btn btn-primary" data-toggle="collapse" style="margin-bottom: 20px;">
+            <i class="fa fa-plus"></i>
+            Add Entry
+        </a>
+
+        <div id="create_receipt" class="portlet light bordered collapse">
+            <div class="portlet-title">
+                <div class="caption font-red-sunglo" id="create_form_title">
+                    <i class="fa fa-plus font-red-sunglo"></i>
+                    <span class="caption-subject bold uppercase">Add Entry</span>
+                </div>
+                <div class="actions">
+                    <div class="btn-group">
+                        <a class="btn btn-sm green" data-toggle="modal" href="#instructions"> Instructions
+                            <i class="fa fa-file-text"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form role="form">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-3" name = "entry_id_col" style="display:none">
+                            <div class="form-group">
+                                <label>Entry Id</label>
+                                <input name="entry_id" class="form-control" disabled>
+                                </input>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label">Select Date of Entry</label>
+                                <span class="required" aria-required="true"> * </span>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                    <input name="entry_date" class="form-control date-picker" size="10" type="text"
+                                        value="" data-date-format="dd-mm-yyyy">
+                                </div>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <h3> Debit </h3>
+                            <div class="row" name="debit">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Select Main Head</label>
+                                        <select name="head" class="form-control">
+                                            <option value="Asset">Asset</option>
+                                            <option value="Expense">Expense</option>
+                                            <option value="Liability">Liability</option>
+                                            <option value="Revenue">Revenue</option>
+                                            <option value="Equity">Equity</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Select Sub Head</label>
+                                        <select name="sub_head" class="form-control">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Select Account</label>
+                                        <span class="required" aria-required="true"> * </span>
+                                        <a name="add_subhead_account" data-toggle="modal" href="#subhead_account_modal"
+                                            class="fa fa-plus pull-right"></a>
+                                        <select name="sub_head_account" class="form-control">
+                                        </select>
+                                        <span class="help-block"></span>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Enter Amount</label>
+                                        <span class="required" aria-required="true"> * </span>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-money"></i>
+                                            </span>
+                                            <input name="amount" class='form-control' type="number" min="0">
+                                        </div>
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-12">
+                            <h3> Credit </h3>
+                            <div class="row" name="credit">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Select Main Head</label>
+                                        <select name="head" class="form-control">
+                                            <option value="Asset">Asset</option>
+                                            <option value="Expense">Expense</option>
+                                            <option value="Liability">Liability</option>
+                                            <option value="Revenue">Revenue</option>
+                                            <option value="Equity">Equity</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Select Sub Head</label>
+                                        <select name="sub_head" class="form-control">
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Select Account</label>
+                                        <span class="required" aria-required="true"> * </span>
+                                        <a name="add_subhead_account" data-toggle="modal" href="#subhead_account_modal"
+                                            class="fa fa-plus pull-right"></a>
+                                        <select name="sub_head_account" class="form-control">
+                                        </select>
+                                        <span class="help-block"></span>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Enter Amount</label>
+                                        <span class="required" aria-required="true"> * </span>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-money"></i>
+                                            </span>
+                                            <input name="amount" class='form-control' type="number" min="0">
+                                        </div>
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-12">
+                            <h3> Description </h3>
+                            <label>Enter Description:</label>
+                            <input name="entry_description" type="text" class="form-control" placeholder="Description">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <a onclick="reset_entry_form()" class="btn btn-danger btn-sm pull-right" id="reset_form">Reset</a>
+                        <a id="save_entry" class="btn btn-primary">Save</a>
+                        <a onclick="reset_entry_form()" href="#create_receipt" class="btn btn-default" data-toggle="collapse">
+                            Close
+                        </a>
+                    </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="col-md-12">
+    {% include 'entries/instructions_modal.html' %}
+    {% include 'entries/subhead_account_modal.html' %}
+</div>
+</div>
+<script>
+    function set_sub_head_account(sub_head, sub_head_account) {
+        $.ajax({
+            async:false,
+            data: {
+                'sub_head': sub_head.val(),
+            },
+            url: '/get_subhead_account',
+            dataType: 'json',
+            type: 'GET',
+            success: function (data) {
+                sub_head_account.empty()
+                for (var item of data) {
+                    sub_head_account.append(new Option(item['sub_head_account'], item['id']))
+                }
+            },
+            error: function (data) {
+                console.log(data)
+            }
+        })
+    }
+
+    function set_sub_head(head, sub_head, sub_head_account) {
+        $.ajax({
+            async:false,
+            data: {
+                'head': head.val(),
+            },
+            url: '/get_subhead',
+            dataType: 'json',
+            type: 'GET',
+            success: function (data) {
+                sub_head.empty()
+                for (var item of data) {
+                    sub_head.append(new Option(item['sub_head'], item['id']))
+                }
+            },
+            error: function (data) {
+                console.log(data)
+            },
+            complete: function (data) {
+                set_sub_head_account(sub_head, sub_head_account)
+            }
+        })
+    }
+
+    function reset_entry_form() {
+        var date_form = $($('[name=entry_date]').parents('.form-group')[0])
+        var debit_account_form = $($('[name=debit]').find('[name=sub_head_account]').parents('.form-group')[0])
+        var debit_amount_form = $($('[name=debit]').find('[name=amount]').parents('.form-group')[0])
+        var credit_account_form = $($('[name=credit]').find('[name=sub_head_account]').parents('.form-group')[0])
+        var credit_amount_form = $($('[name=credit]').find('[name=amount]').parents('.form-group')[0])
+
+        date_form.removeClass('has-error')
+        date_form.find('.help-block').empty()
+        debit_account_form.removeClass('has-error')
+        debit_account_form.find('.help-block').empty()
+        debit_amount_form.removeClass('has-error')
+        debit_amount_form.find('.help-block').empty()
+        credit_account_form.removeClass('has-error')
+        credit_account_form.find('.help-block').empty()
+        credit_amount_form.removeClass('has-error')
+        credit_amount_form.find('.help-block').empty()
+
+        date_form.find('[name=entry_date]').val('')
+        debit_amount_form.find('[name=amount]').val('')
+        credit_amount_form.find('[name=amount]').val('')
+        $('[name=entry_description]').val('')
+        $('[name=entry_id]').attr('value', '')
+        var heads = $("select[name=head]")
+        for (var head of heads) {
+            head = $(head).val('Asset')
+            sub_head = $(head.parents('.row')[0]).find('[name=sub_head]')
+            sub_head_account = $(sub_head.parents('.row')[0]).find('[name=sub_head_account]')
+            set_sub_head(head, sub_head, sub_head_account)
+        }
+        $('[name=entry_id_col]').css('display','none')
+        $('#create_form_title span').html('Add Entry')
+        $('#create_form_title i').removeClass('fa-pencil').addClass('fa-plus')
+    }
+
+    function check_entry_form_errors(entry_date, debit_account, debit_amount, credit_account, credit_amount) {
+        error = 0
+        var date_form = $($('[name=entry_date]').parents('.form-group')[0])
+        var debit_account_form = $($('[name=debit]').find('[name=sub_head_account]').parents('.form-group')[0])
+        var debit_amount_form = $($('[name=debit]').find('[name=amount]').parents('.form-group')[0])
+        var credit_account_form = $($('[name=credit]').find('[name=sub_head_account]').parents('.form-group')[0])
+        var credit_amount_form = $($('[name=credit]').find('[name=amount]').parents('.form-group')[0])
+
+        date_form.removeClass('has-error')
+        date_form.find('.help-block').empty()
+        debit_account_form.removeClass('has-error')
+        debit_account_form.find('.help-block').empty()
+        debit_amount_form.removeClass('has-error')
+        debit_amount_form.find('.help-block').empty()
+        credit_account_form.removeClass('has-error')
+        credit_account_form.find('.help-block').empty()
+        credit_amount_form.removeClass('has-error')
+        credit_amount_form.find('.help-block').empty()
+
+        if (entry_date == "" || entry_date == null) {
+            date_form.addClass('has-error')
+            date_form.find('.help-block').html('Please Correct, Date cannot be empty')
+            error = true
+        }
+        if (debit_account == "" || debit_account == null) {
+            debit_account_form.addClass('has-error')
+            debit_account_form.find('.help-block').html('Please Correct, Account cannot be empty')
+            error = true
+        }
+        if (debit_amount == "" || debit_amount == null) {
+            debit_amount_form.addClass('has-error')
+            debit_amount_form.find('.help-block').html('Please Correct, Amount cannot be empty')
+            error = true
+        }
+        else if (debit_amount <= 0) {
+            debit_amount_form.addClass('has-error')
+            debit_amount_form.find('.help-block').html('Should be greater than or equal to zero')
+            error = true
+        }
+        if (credit_account == "" || credit_account == null) {
+            credit_account_form.addClass('has-error')
+            credit_account_form.find('.help-block').html('Please Correct, Account cannot be empty')
+            error = true
+        }
+        if (credit_amount == "" || credit_amount == null) {
+            credit_amount_form.addClass('has-error')
+            credit_amount_form.find('.help-block').html('Please Correct, Amount cannot be empty')
+            error = true
+        }
+        else if (credit_amount <= 0) {
+            credit_amount_form.addClass('has-error')
+            credit_amount_form.find('.help-block').html('Should be greater than or equal to zero')
+            error = true
+        }
+        if (debit_amount != credit_amount) {
+            debit_amount_form.addClass('has-error')
+            debit_amount_form.find('.help-block').html('Debit and Credit should be equal')
+            credit_amount_form.addClass('has-error')
+            credit_amount_form.find('.help-block').html('Debit and Credit should be equal')
+            error = true
+        }
+
+        return error
+    }
+
+    function get_sub_head(head) {
+        var sub_head = null
+        $.ajax({
+            async:false,
+            data: {
+                'head': head,
+            },
+            url: '/get_subhead',
+            dataType: 'json',
+            type: 'GET',
+            success: function (data) {
+                sub_head = data
+            }
+        })
+        return sub_head
+    }
+    
+    function edit_mode(){
+        $('[name=entry_id_col]').css('display','block')
+        $('#create_form_title span').html('Edit Entry')
+        $('#create_form_title i').removeClass('fa-plus').addClass('fa-pencil')
+    }
+    function set_form_values(id) {
+        $.ajax({
+            url: '/api/entrylist/' + id.toString(),
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                $('[name=entry_id]').attr('value', data['id'])
+                $('[name=entry_date').datepicker('setDate', data['dated']);
+                $($('[name=amount]')[0]).val(data['debit']['amount'])
+                $($('[name=amount]')[1]).val(data['credit']['amount'])
+                $('[name = entry_description]').val(data['description'])
+
+                $($('[name=head]')[0]).val(data['debit']['sub_head_account']['sub_head']['head']).change()
+                $($('[name=sub_head]')[0]).val(data['debit']['sub_head_account']['sub_head']['id']).change()
+                $($('[name=sub_head_account]')[0]).val(data['debit']['sub_head_account']['id']).change()
+
+                $($('[name=head]')[1]).val(data['credit']['sub_head_account']['sub_head']['head']).change()
+                $($('[name=sub_head]')[1]).val(data['credit']['sub_head_account']['sub_head']['id']).change()
+                $($('[name=sub_head_account]')[1]).val(data['credit']['sub_head_account']['id']).change()
+                $('#create_receipt').collapse('show')
+                edit_mode()
+            }
+        })
+    }
+
+    $(document).ready(function () {
+
+        var heads = $("select[name=head]")
+        for (var head of heads) {
+            head = $(head)
+            sub_head = $(head.parents('.row')[0]).find('[name=sub_head]')
+            sub_head_account = $(sub_head.parents('.row')[0]).find('[name=sub_head_account]')
+            set_sub_head(head, sub_head, sub_head_account)
+        }
+
+        $("select[name=head]").change(function () {
+            var head = $(this)
+            sub_head = $(head.parents('.row')[0]).find('[name=sub_head]')
+            sub_head_account = $(sub_head.parents('.row')[0]).find('[name=sub_head_account]')
+            set_sub_head(head, sub_head, sub_head_account)
+        })
+        $("select[name=sub_head]").change(function () {
+            var sub_head = $(this)
+            var sub_head_account = $(sub_head.parents('.row')[0]).find('[name=sub_head_account]')
+            set_sub_head_account(sub_head, sub_head_account)
+        })
+        $("#save_entry").click(function () {
+            var entry_id = $('[name=entry_id]').val()
+            var entry_date = $('[name=entry_date]').val()
+            var debit_account = $('[name=debit').find('[name=sub_head_account]').val()
+            var debit_amount = $('[name=debit').find('[name=amount]').val()
+            var credit_account = $('[name=credit').find('[name=sub_head_account]').val()
+            var credit_amount = $('[name=credit').find('[name=amount]').val()
+            var entry_desc = $('[name=entry_description]').val()
+
+            var error = false
+            error = check_entry_form_errors(entry_date, debit_account, debit_amount, credit_account, credit_amount)
+
+            if (error == false) {
+                var url = 'api/entry/'
+                var type = "POST"
+                if (entry_id != null & entry_id != ''){
+                    url = url+entry_id.toString()+"/"
+                    type = "PUT"
+                }
+                $.ajax({
+                    data: JSON.stringify({
+                        "dated": entry_date,
+                        "debit":
+                        {
+                            "amount": debit_amount,
+                            "sub_head_account": debit_account
+                        },
+                        "credit":
+                        {
+                            "amount": credit_amount,
+                            "sub_head_account": credit_account
+                        },
+                        "description":entry_desc
+                    }),
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    contentType: "application/json;charset=utf-8",
+                    url: url,
+                    dataType: 'json',
+                    type: type,
+                    success: function (data) {
+                        alert('Your entry has been saved')
+                        reset_entry_form()
+                        load_table_data()
+                    },
+                    error: function (data) {
+                        console.log(data)
+                        alert('error Saving Data: ' + data["responseJSON"][0])
+                    }
+                })
+            }
+        })
+
+
+    })
+</script>

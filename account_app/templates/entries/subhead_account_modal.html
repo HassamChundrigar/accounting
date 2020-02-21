@@ -1,0 +1,98 @@
+<div class="modal fade" id="subhead_account_modal" tabindex="-1" role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title font-green">Add New Sub head account</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Head</label>
+                            <select id="modal_head" class="form-control" disabled>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Sub Head</label>
+                            <select id="modal_sub_head" class="form-control" disabled>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Account Title</label>
+                            <input id="modal_sub_head_account" class="form-control" placeholder="Required">
+                        </div>
+
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label>Description</label>
+                            <input id="modal_description" class="form-control">
+                        </div>
+                    </div>
+                    <div id="modal_error" class="col-md-12">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="save_subhead_account">Save</button>
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('[name=add_subhead_account]').click(function () {
+            var head = $($(this).parents('.row')[0]).find('[name=head]')
+            var sub_head = $($(this).parents('.row')[0]).find('[name=sub_head]')
+
+            $('#modal_head').empty().append(new Option(head.find('option:selected').html(), head.val()))
+            $('#modal_sub_head').empty().append(new Option(sub_head.find('option:selected').html(), sub_head.val()))
+        })
+        $('#save_subhead_account').click(function () {
+            var sub_head_val = $('#modal_sub_head').val()
+            var subhead_account_val = $('#modal_sub_head_account').val()
+            var description = $('#modal_description').val()
+            if (subhead_account_val != '' || sub_head_val != '') {
+                $.ajax({
+                    data: {
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                        'sub_head': sub_head_val,
+                        'sub_head_account': subhead_account_val,
+                        'description': description
+                    },
+                    url: 'api/subheadaccount/',
+                    dataType: 'json',
+                    type: 'POST',
+                    success: function (data) {
+                        var sub_heads = $("select[name=sub_head]")
+                        for (var sub_head of sub_heads) {
+                            sub_head = $(sub_head)
+                            sub_head_account = $(sub_head.parents('.row')[0]).find('[name=sub_head_account]')
+                            set_sub_head_account(sub_head, sub_head_account)
+                        }
+                        $('#subhead_account_modal').modal('hide');
+                        alert(subhead_account_val+' has been added to sub head accounts')
+                    },
+                    error: function (data) {
+                        var html = ' <div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>'+data['responseText']+'</div>'
+                        $('#modal_error').html(html)
+                        console.log(data)
+                    }
+                })
+            }
+            else console.log('form incomplete')
+
+        })
+
+    })
+</script>

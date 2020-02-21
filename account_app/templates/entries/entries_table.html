@@ -1,0 +1,133 @@
+<style>
+    @media only screen and (max-width: 600px) {
+        .portlet.light {
+            padding: 6px 10px 6px !important;
+        }
+    }
+</style>
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-green">
+                    <i class="fa fa-list font-green"></i>
+                    <span class="caption-subject bold uppercase">Entries</span>
+                </div>
+                <div class="tools"> </div>
+            </div>
+            <div class="portlet-body">
+                <table name="entry_table" class="table table-striped table-bordered table-hover dt-responsive"
+                    width="100%" /*id="sample_2"*/>
+                <thead>
+                    <tr>
+                        <th class="all">Dated</th>
+                        <th class="none">Debit Head</th>
+                        <th class="none">Debit Sub Head</th>
+                        <th class="all">Debit Account</th>
+                        <th class="all">Debit Amount</th>
+                        <th class="none">Credit Head</th>
+                        <th class="none">Credit Sub Head</th>
+                        <th class="all">Credit Account</th>
+                        <th class="all">Credit Amount</th>
+                        <th class="none">Description</th>
+                        <th class="none">Created On</th>
+                        <th class="none">Modified On</th>
+                        <th class="all">Actions</th>
+                    </tr>
+                </thead>
+                <tbody name='entry_table_body'>
+                </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- END EXAMPLE TABLE PORTLET-->
+    </div>
+</div>
+<div class="modal fade" id="delete_confirm" tabindex="-1" role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title font-red-mint">Delete Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                <p>Are You Sure you want to delete this entry?</p>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-danger" name="delete_confirmed">Delete</a>
+                <button onclick="reset_entry_form()" type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function load_table_data() {
+        $.get('api/entrylist/', function success(data) {
+            if ($.fn.dataTable.isDataTable('[name=entry_table]')) {
+                table = $('[name=entry_table]').DataTable();
+            }
+            else {
+                table = $('[name=entry_table]').DataTable({
+                    "fnCreatedRow": function (nRow, aData, iDataIndex) {
+                        $('td:eq(12)', nRow).append('<div style="white-space:nowrap"><a href="#create_receipt" name="edit_table_entry">Edit</a> <a style="color:red; margin-left:10px;" name="delete_table_entry">Delete</a></div>');
+
+                    },
+                });
+            }
+            table.rows().remove()
+
+            data.forEach(function (entry, i) {
+                var entry_id = entry['id']
+                var dated = entry['dated']//new Date(entry['dated']).toDateString()
+
+                var debit_head = entry['debit']['sub_head_account']['sub_head']['head']
+                var debit_sub_head = entry['debit']['sub_head_account']['sub_head']['sub_head']
+                var debit_account = entry['debit']['sub_head_account']['sub_head_account']
+                var debit_amount = entry['debit']['amount']
+
+                var credit_head = entry['credit']['sub_head_account']['sub_head']['head']
+                var credit_sub_head = entry['credit']['sub_head_account']['sub_head']['sub_head']
+                var credit_account = entry['credit']['sub_head_account']['sub_head_account']
+                var credit_amount = entry['credit']['amount']
+
+                var description = entry['description']
+                var created_on = new Date(entry['created_on']).toDateString()
+                var modified_on = new Date(entry['modified_on']).toDateString()
+
+                var row = table.row.add([dated, debit_head, debit_sub_head, debit_account, debit_amount, credit_head, credit_sub_head, credit_account, credit_amount, description, created_on, modified_on, ' ']).draw().node()
+                $(row).attr('id', entry_id)
+            })
+            table.draw()
+
+        })
+    }
+
+    $(document).ready(function () {
+
+        load_table_data()
+        $(document).on('click', 'a[name=delete_table_entry]', function () {
+            var id = $($(this).parents('tr')[0]).attr('id')
+            $('[name=delete_confirmed]').attr('id', id)
+            $('#delete_confirm').modal('show')
+        })
+        $('[name=delete_confirmed]').click(function () {
+            id = $(this).attr('id')
+            $.ajax({
+                url: 'api/entry/' + id.toString(),
+                type: 'DELETE',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                success: function () {
+                    $('#delete_confirm').modal('hide')
+                    load_table_data()
+                },
+            })
+        })
+        $(document).on('click', 'a[name=edit_table_entry]', function () {
+            var id = $($(this).parents('tr')[0]).attr('id')
+            set_form_values(id)
+        })
+    })
+</script>
